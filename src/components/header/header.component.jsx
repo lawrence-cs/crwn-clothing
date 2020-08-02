@@ -1,9 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './header.styles.scss';
+import { connect } from 'react-redux';
+
 import { auth } from '../../firebase/firebase.utils';
 /* The ReactComponent import name is special and tells Create React App that you want a React component that renders an SVG, rather than its filename.*/
+
+import './header.styles.scss';
 import { ReactComponent as Logo} from '../../assets/crown.svg';
+ 
 
 const Header = ({currentUser}) => {
     return (
@@ -19,18 +23,23 @@ const Header = ({currentUser}) => {
                     {"Contact".toUpperCase()}
                 </Link>
                 {
-                    currentUser ?
+                    currentUser ? (
                     <div className='option' onClick={() => auth.signOut()}>
                         {"Sign Out".toUpperCase()}
                     </div>
-                    :
+                    ) : (
                     <Link className='option' to='/signin'>
                         {"Sign In".toUpperCase()}
                     </Link>
-                }
+                )}
+
             </div>
         </div>
     )
 }
 
-export default Header;
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+})
+
+export default connect(mapStateToProps)(Header);

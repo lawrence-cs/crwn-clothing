@@ -5,11 +5,14 @@ import { connect } from 'react-redux';
 import { auth } from '../../firebase/firebase.utils';
 /* The ReactComponent import name is special and tells Create React App that you want a React component that renders an SVG, rather than its filename.*/
 
+import CartIcon from '../cart-icon/cart-icon.component';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+
 import './header.styles.scss';
 import { ReactComponent as Logo} from '../../assets/crown.svg';
  
 
-const Header = ({currentUser}) => {
+const Header = ({currentUser, hidden}) => {
     return (
         <div className='header'>
             <Link className='logo-container' to="/">
@@ -32,14 +35,18 @@ const Header = ({currentUser}) => {
                         {"Sign In".toUpperCase()}
                     </Link>
                 )}
-
+                <CartIcon />
             </div>
+            {
+                hidden ? null : <CartDropdown />
+            }
         </div>
     )
 }
 
-const mapStateToProps = state => ({
-    currentUser: state.user.currentUser
+const mapStateToProps = ({user: {currentUser}, cart:{hidden}}) => ({
+    currentUser,
+    hidden
 })
 
 export default connect(mapStateToProps)(Header);

@@ -38,12 +38,13 @@ const Header = ({currentUser, hidden}) => {
                 <CartIcon />
             </div>
             {
-                hidden ? null : <CartDropdown />
+                hidden ? null : <CartDropdown /> //CartDropDown is now clickable to show or hide
             }
         </div>
     )
 }
 
+//That's some advance destructuring right here
 const mapStateToProps = ({user: {currentUser}, cart:{hidden}}) => ({
     currentUser,
     hidden

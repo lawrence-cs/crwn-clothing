@@ -2,7 +2,6 @@ import React from 'react';
 
 import './sign-up-styles.scss';
 
-import FromInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
 import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
@@ -29,7 +28,7 @@ class SignUp extends React.Component {
 
         const {displayName, email, password, confirmPassword} = this.state;
 
-        if(password!=confirmPassword){
+        if(password!==confirmPassword){
             alert("passwords don't match");
             return;
         } 

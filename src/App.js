@@ -14,6 +14,13 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
+// START OF EXPERIMENTAL CODE 002: USE THIS CODE TO CREATE DATA TO FIREBASE WITHOUT TYPING THE WHOLE THING
+/*
+  import { auth, createUserProfileDocument, addCollectionAndDocuments } from './firebase/firebase.utils';
+  import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
+*/
+  // END OF EXPERIMENTAL CODE 002
+
 import './App.css';
 
 //Use Class to Access State
@@ -22,8 +29,14 @@ class App extends React.Component {
   unsubscribeFromAuth = null;
 
   //This Will Open the Subscription
-  componentDidMount(){
+  componentDidMount() {
     const { setCurrentUser } = this.props;
+
+    // START OF EXPERIMENTAL CODE 002: USE THIS CODE TO CREATE DATA TO FIREBASE WITHOUT TYPING THE WHOLE THING
+    /* 
+      const { setCurrentUser, collectionsArray } = this.props;
+    */
+    // END OF EXPERIMENTAL CODE 002
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
@@ -35,9 +48,15 @@ class App extends React.Component {
               id: snapshot.id,
               ...snapshot.data()
             });
-        });
+        }, error => console.log(error));
       }
       setCurrentUser(userAuth);
+
+    // START OF EXPERIMENTAL CODE 002: USE THIS CODE TO CREATE DATA TO FIREBASE WITHOUT TYPING THE WHOLE THING
+    /*
+      addCollectionAndDocuments('collections', collectionsArray.map(({title, items})=>({title, items})));
+    */
+    // END OF EXPERIMENTAL CODE 002:
     });
   }
 
@@ -66,10 +85,19 @@ class App extends React.Component {
   }
 }
 
-//Thhis Code is to hide Sign In Link when user has logged in
+//This Code is to hide Sign In Link when user has logged in
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser
 });
+
+// START OF EXPERIMENTAL CODE 002: USE THIS CODE TO CREATE DATA TO FIREBASE WITHOUT TYPING THE WHOLE THING
+/*
+  const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    collectionsArray: selectCollectionsForPreview
+  });
+*/
+// END OF EXPERIMENTAL CODE 002
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))

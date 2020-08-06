@@ -11,13 +11,14 @@ export const selectCollections = createSelector(
 //Converts the Object data into an array
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => Object.keys(collections).map(key => collections[key])
-)
+    collections => 
+        collections ? Object.keys(collections).map(key => collections[key]) : []
+);
 
 //Retrieves the data in an object form
 export const selectCollection = memoize((collectionUrlParam) =>
     createSelector(
         [selectCollections],
-        collections =>collections[collectionUrlParam]
+        collections => collections ? collections[collectionUrlParam] : null
     )
 );
